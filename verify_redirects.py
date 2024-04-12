@@ -1,4 +1,5 @@
 import csv
+import argparse
 import requests
 from termcolor import colored
 
@@ -76,9 +77,25 @@ def generate_html_report(results, output_file, title):
 
 # Main execution
 if __name__ == "__main__":
-    results = verify_redirects('redirects.csv')
+    # Create the parser
+    parser = argparse.ArgumentParser(description='Verify redirects and generate report')
+
+    # Add the arguments
+    parser.add_argument('csv_file', metavar='csv_file', type=str, help='the path to the csv file')
+    parser.add_argument('results_prefix', metavar='results_prefix', type=str, help='the prefix for results files')
+
+    # Parse the command line arguments
+    args = parser.parse_args()
+
+    # Get the CSV file and results prefix from arguments
+    csv_file = args.csv_file
+    results_prefix = args.results_prefix
+
+    results = verify_redirects(csv_file)
     successes = [res for res in results if res[5] and res[6]]
     errors = [res for res in results if not (res[5] and res[6])]
+    generate_html_report(successes, f'results/{results_prefix}_redirect_verification_success.html',
+                         'URL Redirect Verification Report - Successful')
+    generate_html_report(errors, f'results/{results_prefix}_redirect_verification_error.html',
+                         'URL Redirect Verification Report - Errors')
 
-    generate_html_report(successes, 'results/redirect_verification_success.html', 'URL Redirect Verification Report - Successful')
-    generate_html_report(errors, 'results/redirect_verification_error.html', 'URL Redirect Verification Report - Errors')

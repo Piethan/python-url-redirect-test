@@ -26,7 +26,7 @@ https://google.de,https://www.google.de/,302
 You need only to run this command:
 
 ```python
-python verify_redirects.py
+python verify_redirects.py redirects.csv result_prefix
 ```
 
 ### Results of sample file
