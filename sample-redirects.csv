@@ -1,0 +1,4 @@
+source_url,target_url,code
+https://google.de,https://www.google.de/,301
+http://google.de,https://www.google.de,301
+https://google.de,https://www.google.de/,302
